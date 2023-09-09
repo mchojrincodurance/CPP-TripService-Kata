@@ -15,7 +15,7 @@ UserSession *UserSession::oneUserSession = 0;
 list<Trip> TripService::GetTripsByUser(User *user) {
     User *loggedUser = getLoggedUser();
     if (!loggedUser) {
-        throw UserNotLoggedInException();
+        throw "UserNotLoggedInException";
     }
 
     return isFriendOf(user, loggedUser) ? getTriplist(user) : list<Trip>{};

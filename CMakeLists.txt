@@ -14,13 +14,9 @@ set(
   TripService/User.h
   TripService/UserSession.h
   main.cpp
-        UserNotLoggedInException.cc
-        UserNotLoggedInException.h
 )
 
-add_executable(TripServiceKata "${SOURCES}"
-        UserNotLoggedInException.cc
-        UserNotLoggedInException.h)
+add_executable(TripServiceKata "${SOURCES}")
 
 include(FetchContent)
 FetchContent_Declare(

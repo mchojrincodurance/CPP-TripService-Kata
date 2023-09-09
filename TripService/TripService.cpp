@@ -16,26 +16,20 @@ list<Trip> TripService::GetTripsByUser(User* user)
     list<Trip> triplist;
     User* loggedUser = UserSession::GetInstance()->GetLoggedUser();
     bool isFriend = false;
-    if (loggedUser)
-    {
+    if (!loggedUser) {
+        throw "UserNotLoggedInException";
+    } else {
         list<User>::iterator i;
-        for (i = user->GetFriends().begin(); i != user->GetFriends().end(); ++i)
-        {
-            if (*i == *loggedUser)
-            {
+        for (i = user->GetFriends().begin(); i != user->GetFriends().end(); ++i) {
+            if (*i == *loggedUser) {
                 isFriend = true;
                 break;
             }
         }
-        if (isFriend)
-        {
+        if (isFriend) {
             triplist = TripDAO::FindTripsByUser(user);
         }
         return triplist;
-    }
-    else
-    {
-        throw "UserNotLoggedInException";
     }
 }
 

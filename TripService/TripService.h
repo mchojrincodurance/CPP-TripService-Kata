@@ -15,7 +15,7 @@ class TripService
 
     virtual User *getLoggedUser() const;
 
-    list<Trip> getTriplist(User *user) const;
+    virtual list<Trip> getTriplist(User *user) const;
 
     bool isFriendOf(User *user, User *loggedUser) const;
 };

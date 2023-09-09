@@ -1,17 +1,19 @@
 #ifndef TRIP_H
 #define TRIP_H
 
+#include <cstring>
+
 class Trip
 {
 public:
     explicit Trip(const char *destination) : destination(destination) {}
 
     bool operator==(const Trip &rhs) const {
-        return destination == rhs.destination;
+        return strcmp(destination, rhs.destination) == 0;
     }
 
     bool operator!=(const Trip &rhs) const {
-        return !(rhs == *this);
+        return strcmp(destination, rhs.destination) != 0;;
     }
 
 private:

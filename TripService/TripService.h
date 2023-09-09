@@ -15,6 +15,8 @@ class TripService
     void BuildCheck();
 
     User *getLoggedUser() const;
+
+    list<Trip> getTriplist(User *user) const;
 };
 
 #endif

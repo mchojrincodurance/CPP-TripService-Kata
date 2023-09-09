@@ -26,10 +26,12 @@ list<Trip> TripService::GetTripsByUser(User *user) {
         }
     }
     if (isFriend) {
-        triplist = TripDAO::FindTripsByUser(user);
+        triplist = getTriplist(user);
     }
     return triplist;
 }
+
+list<Trip> TripService::getTriplist(User *user) const { return TripDAO::FindTripsByUser(user); }
 
 User *TripService::getLoggedUser() const { return UserSession::GetInstance()->GetLoggedUser(); }
 

@@ -37,8 +37,4 @@ list<Trip> TripService::getTriplist(User *user) const { return TripDAO::FindTrip
 
 User *TripService::getLoggedUser() const { return UserSession::GetInstance()->GetLoggedUser(); }
 
-void TripService::BuildCheck() {
-    cout << "Built and runnable!" << endl;
-}
-
 #endif

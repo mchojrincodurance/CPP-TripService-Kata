@@ -9,32 +9,29 @@
 
 using namespace std;
 
-UserSession* UserSession::oneUserSession = 0;
+UserSession *UserSession::oneUserSession = 0;
 
-list<Trip> TripService::GetTripsByUser(User* user)
-{
+list<Trip> TripService::GetTripsByUser(User *user) {
     list<Trip> triplist;
-    User* loggedUser = UserSession::GetInstance()->GetLoggedUser();
+    User *loggedUser = UserSession::GetInstance()->GetLoggedUser();
     bool isFriend = false;
     if (!loggedUser) {
         throw "UserNotLoggedInException";
-    } else {
-        list<User>::iterator i;
-        for (i = user->GetFriends().begin(); i != user->GetFriends().end(); ++i) {
-            if (*i == *loggedUser) {
-                isFriend = true;
-                break;
-            }
-        }
-        if (isFriend) {
-            triplist = TripDAO::FindTripsByUser(user);
-        }
-        return triplist;
     }
+    list<User>::iterator i;
+    for (i = user->GetFriends().begin(); i != user->GetFriends().end(); ++i) {
+        if (*i == *loggedUser) {
+            isFriend = true;
+            break;
+        }
+    }
+    if (isFriend) {
+        triplist = TripDAO::FindTripsByUser(user);
+    }
+    return triplist;
 }
 
-void TripService::BuildCheck()
-{
+void TripService::BuildCheck() {
     cout << "Built and runnable!" << endl;
 }
 

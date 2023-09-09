@@ -13,6 +13,8 @@ class TripService
   public:
     list<Trip> GetTripsByUser(User* user);
     void BuildCheck();
+
+    User *getLoggedUser() const;
 };
 
 #endif

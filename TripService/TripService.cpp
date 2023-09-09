@@ -13,7 +13,7 @@ UserSession *UserSession::oneUserSession = 0;
 
 list<Trip> TripService::GetTripsByUser(User *user) {
     list<Trip> triplist;
-    User *loggedUser = UserSession::GetInstance()->GetLoggedUser();
+    User *loggedUser = getLoggedUser();
     bool isFriend = false;
     if (!loggedUser) {
         throw "UserNotLoggedInException";
@@ -30,6 +30,8 @@ list<Trip> TripService::GetTripsByUser(User *user) {
     }
     return triplist;
 }
+
+User *TripService::getLoggedUser() const { return UserSession::GetInstance()->GetLoggedUser(); }
 
 void TripService::BuildCheck() {
     cout << "Built and runnable!" << endl;

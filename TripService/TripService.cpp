@@ -16,11 +16,8 @@ list<Trip> TripService::GetTripsByUser(User *user) {
     if (!loggedUser) {
         throw "UserNotLoggedInException";
     }
-    list<Trip> triplist;
-    if (isFriendOf(user, loggedUser)) {
-        triplist = getTriplist(user);
-    }
-    return triplist;
+
+    return isFriendOf(user, loggedUser) ? getTriplist(user) : list<Trip>{};
 }
 
 bool TripService::isFriendOf(User *user, User *loggedUser) const {

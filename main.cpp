@@ -4,13 +4,18 @@
 
 class TestableTripService : public TripService {
 public:
+    explicit TestableTripService(User *loggedUser) : loggedUser(loggedUser) {}
+
     User *getLoggedUser() const override {
-        return nullptr;
+        return loggedUser;
     }
+private:
+    User *loggedUser = nullptr;
 };
 
 TEST(TripServiceShould, validate_the_logged_in_user)
 {
-    auto *tripService = new TestableTripService;
+    User *notLoggedUser = nullptr;
+    auto *tripService = new TestableTripService(notLoggedUser);
     EXPECT_THROW(tripService->GetTripsByUser(nullptr), const char *);
 }

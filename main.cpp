@@ -9,8 +9,8 @@ public:
     }
 };
 
-TEST(TripServiceShould, do_something)
+TEST(TripServiceShould, validate_the_logged_in_user)
 {
     auto *tripService = new TestableTripService;
-    tripService->GetTripsByUser(nullptr);
+    EXPECT_THROW(tripService->GetTripsByUser(nullptr), const char *);
 }

@@ -4,8 +4,6 @@
 #include "TripService.h"
 #include "TripDAO.h"
 #include "UserSession.h"
-#include "../UserNotLoggedInException.h"
-#include <iostream>
 #include <list>
 
 using namespace std;

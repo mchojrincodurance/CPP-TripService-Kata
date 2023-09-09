@@ -18,7 +18,7 @@ class TripService
 
     list<Trip> getTriplist(User *user) const;
 
-    bool isFriendOf(User *user, const User *loggedUser) const;
+    bool isFriendOf(User *user, User *loggedUser) const;
 };
 
 #endif

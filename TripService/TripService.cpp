@@ -14,18 +14,16 @@ UserSession *UserSession::oneUserSession = 0;
 list<Trip> TripService::GetTripsByUser(User *user) {
     list<Trip> triplist;
     User *loggedUser = getLoggedUser();
-    bool isFriend = false;
     if (!loggedUser) {
         throw "UserNotLoggedInException";
     }
-    isFriend = isFriendOf(user, loggedUser);
-    if (isFriend) {
+    if (isFriendOf(user, loggedUser)) {
         triplist = getTriplist(user);
     }
     return triplist;
 }
 
-bool TripService::isFriendOf(User *user, const User *loggedUser) const {
+bool TripService::isFriendOf(User *user, User *loggedUser) const {
     bool isFriend;
     list<User>::iterator i;
     for (i = user->GetFriends().begin(); i != user->GetFriends().end(); ++i) {

@@ -1,11 +1,16 @@
 #include "TripService/TripService.h"
 #include "TripService/User.h"
+#include <gtest/gtest.h>
 
-int main()
+class TestableTripService : public TripService {
+public:
+    User *getLoggedUser() const override {
+        return nullptr;
+    }
+};
+
+TEST(TripServiceShould, do_something)
 {
-    TripService* service;
-
-    service->BuildCheck();
-
-    return 0;
+    auto *tripService = new TestableTripService;
+    tripService->GetTripsByUser(nullptr);
 }

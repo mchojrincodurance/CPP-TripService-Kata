@@ -13,7 +13,7 @@ class TripService
   public:
     list<Trip> GetTripsByUser(User* user);
 
-    User *getLoggedUser() const;
+    virtual User *getLoggedUser() const;
 
     list<Trip> getTriplist(User *user) const;
 

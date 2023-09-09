@@ -12,11 +12,11 @@ using namespace std;
 UserSession *UserSession::oneUserSession = 0;
 
 list<Trip> TripService::GetTripsByUser(User *user) {
-    list<Trip> triplist;
     User *loggedUser = getLoggedUser();
     if (!loggedUser) {
         throw "UserNotLoggedInException";
     }
+    list<Trip> triplist;
     if (isFriendOf(user, loggedUser)) {
         triplist = getTriplist(user);
     }

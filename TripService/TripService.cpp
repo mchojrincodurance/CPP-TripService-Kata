@@ -18,6 +18,15 @@ list<Trip> TripService::GetTripsByUser(User *user) {
     if (!loggedUser) {
         throw "UserNotLoggedInException";
     }
+    isFriend = isFriendOf(user, loggedUser);
+    if (isFriend) {
+        triplist = getTriplist(user);
+    }
+    return triplist;
+}
+
+bool TripService::isFriendOf(User *user, const User *loggedUser) const {
+    bool isFriend;
     list<User>::iterator i;
     for (i = user->GetFriends().begin(); i != user->GetFriends().end(); ++i) {
         if (*i == *loggedUser) {
@@ -25,10 +34,7 @@ list<Trip> TripService::GetTripsByUser(User *user) {
             break;
         }
     }
-    if (isFriend) {
-        triplist = getTriplist(user);
-    }
-    return triplist;
+    return isFriend;
 }
 
 list<Trip> TripService::getTriplist(User *user) const { return TripDAO::FindTripsByUser(user); }

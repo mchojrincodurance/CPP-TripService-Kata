@@ -55,8 +55,7 @@ protected:
 
 TEST_F(TripServiceShould, validate_the_logged_in_user)
 {
-    delete tripService;
-    tripService = new TestableTripService(GUEST, new TripDAOMock);
+    TripService * tripService = new TestableTripService(GUEST, new TripDAOMock);
 
     EXPECT_THROW(tripService->GetTripsByUser(anotherUser), const char *);
 }

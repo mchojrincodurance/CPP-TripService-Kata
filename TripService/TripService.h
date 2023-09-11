@@ -8,16 +8,20 @@
 
 using namespace std;
 
-class TripService
-{
-  public:
-    list<Trip> GetTripsByUser(User* user);
+class TripService {
+public:
+    list<Trip> GetTripsByUser(User *user);
 
+protected:
     virtual User *getLoggedUser() const;
 
-    virtual list<Trip> getTriplist(User *user) const;
+    virtual list<Trip> getTripList(User *user) const;
 
     bool isFriendOf(User *user, User *loggedUser) const;
+
+    list<Trip> noTrips() const;
+
+    void validateLoggedUser() const;
 };
 
 #endif

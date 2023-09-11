@@ -6,6 +6,7 @@
 
 #define FIRST_USER_ID 1
 #define SECOND_USER_ID 2
+#define GUEST nullptr
 
 class TestableTripService : public TripService {
 public:
@@ -15,8 +16,8 @@ public:
         return loggedUser;
     }
 
-    list<Trip> getTriplist(User *user) const override {
-        return user->Trips();//tripDAO->FindTripsByUser(user);
+    list<Trip> getTripList(User *user) const override {
+        return user->Trips();
     }
 
 private:
@@ -30,40 +31,47 @@ class TripDAOMock : public TripDAO {
     }
 };
 
-TEST(TripServiceShould, validate_the_logged_in_user)
-{
-    User *notLoggedUser = nullptr;
-    auto *tripService = new TestableTripService(notLoggedUser, new TripDAOMock);
-    EXPECT_THROW(tripService->GetTripsByUser(nullptr), const char *);
-}
-
-TEST(TripServiceShould, return_no_trips_when_users_are_not_friends)
-{
+class TripServiceShould : public ::testing::Test {
+protected:
     User *loggedUser = new User(FIRST_USER_ID);
     User *anotherUser = new User(SECOND_USER_ID);
+    Trip tripToBrazil = Trip("Brazil");
+    Trip tripToLondon = Trip("London");
+    TripDAO * tripDAO = new TripDAOMock();
+    list<Trip> tripsByUser = { tripToBrazil, tripToLondon };
+    TripService *tripService = new TestableTripService(loggedUser, tripDAO);
 
-    auto tripToBrazil = Trip("Brazil");
-    anotherUser->AddTrip(tripToBrazil);
-    auto tripToLondon = Trip("London");
-    anotherUser->AddTrip(tripToLondon);
+    void SetUp() override {
+        anotherUser->AddTrip(tripToBrazil);
+        anotherUser->AddTrip(tripToLondon);
+    }
 
-    auto *tripService = new TestableTripService(loggedUser, new TripDAOMock);
+    void TearDown() override {
+        delete loggedUser;
+        delete anotherUser;
+        delete tripDAO;
+    }
+};
+
+TEST_F(TripServiceShould, validate_the_logged_in_user)
+{
+    delete tripService;
+    tripService = new TestableTripService(GUEST, new TripDAOMock);
+
+    EXPECT_THROW(tripService->GetTripsByUser(anotherUser), const char *);
+}
+
+TEST_F(TripServiceShould, return_no_trips_when_users_are_not_friends)
+{
     auto trips = tripService->GetTripsByUser(anotherUser);
+
     EXPECT_TRUE(trips.empty());
 }
 
-TEST(TripServiceShould, return_trips_when_users_are_friends)
+TEST_F(TripServiceShould, return_trips_when_users_are_friends)
 {
-    User *loggedUser = new User(FIRST_USER_ID);
-    User *anotherUser = new User(SECOND_USER_ID);
-
-    auto tripToBrazil = Trip("Brazil");
-    anotherUser->AddTrip(tripToBrazil);
-    auto tripToLondon = Trip("London");
-    anotherUser->AddTrip(tripToLondon);
     anotherUser->AddFriend(*loggedUser);
 
-    auto *tripService = new TestableTripService(loggedUser, new TripDAOMock);
     try {
         auto trips = tripService->GetTripsByUser(anotherUser);
         EXPECT_THAT(trips, ::testing::Contains(tripToLondon));
